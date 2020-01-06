@@ -1,15 +1,20 @@
 {
-	"name": "WishList",
+	"name": "facebook",
 	"type" : "project",
 	
 	"require":{
 		"illuminate/database": "5.5.*",
 		"php": ">=7.0",
-		"slim/slim": "2.*"},
-
+		"slim/slim": "2.*",
+		"gumlet/php-image-resize": "1.9.*"
+    },
+ "config": {
+        "disable-tls": true,
+        "secure-http": false
+    },
 	"autoload":{
 		"psr-4": {
-			"wishlist\\" : "src/"
+			"facebook\\" : "src/"
 		}
 	}
 }

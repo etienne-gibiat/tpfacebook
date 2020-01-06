@@ -1,15 +1,15 @@
 <?php
 
-namespace wishlist\controleur;
+namespace facebook\controleur;
 
-use wishlist\modele\Compte;
-use wishlist\Vue\VueCompte;
+use facebook\modele\Compte;
+use facebook\Vue\VueCompte;
+use Gumlet\ImageResize;
 
 class CompteControleur{
 
     public function creerCompteControl(){
         $util = new Compte();
-
         $login=$_POST['Login'];
         $mdp=$_POST['MotdePasse'];
         $hash=password_hash($mdp, PASSWORD_DEFAULT, ['cost'=> 12] );
@@ -17,10 +17,26 @@ class CompteControleur{
         $util->mdp=$hash;
         $util->nom=$_POST['nom'];
         $util->prenom=$_POST['prenom'];
+        $util->prenomnom=$util->prenom . $util->nom;
         $util->email=$_POST['email'];
+        if ($_FILES['photo']['error'] <= 0){
+            $extensions_valides = array( 'jpg' , 'jpeg' , 'gif' , 'png' );
+            $extension_upload = strtolower(  substr(  strrchr($_FILES['photo']['name'], '.')  ,1)  );
+            if ( in_array($extension_upload,$extensions_valides)){
+                $resultat = move_uploaded_file($_FILES['photo']['tmp_name'],'assets/img/' . $util->login . $_FILES['photo']['name'] );
+                if ($resultat){
+                    $util->avatar = $util->login . $_FILES['photo']['name'];
+                    $image = new ImageResize('assets/img/' . $util->login . $_FILES['photo']['name']);
+                    $image->resize(200, 200);
+                    $image->save('assets/img/' . $util->login . $_FILES['photo']['name']);
+                }
+            }
+        }
         $util->save();
 
     }
+
+
 
     public function authentifierCompte(){
 
@@ -32,16 +48,16 @@ class CompteControleur{
             if (password_verify($mdp, $util->mdp)) {
                 $_SESSION = ['user_id' => $util->id_compte];
                 $app = \Slim\Slim::getInstance();
-                $app->redirect('/wishlist/');
+                $app->redirect('/facebook/');
             }else{
                 $_SESSION['erreurLogin'] = 'erreur';
                 $app = \Slim\Slim::getInstance();
-                $app->redirect('/wishlist/authentification');
+                $app->redirect('/facebook/authentification');
             }
         }else{
             $_SESSION['erreurLogin'] = 'erreur';
             $app = \Slim\Slim::getInstance();
-            $app->redirect('/wishlist/authentification');
+            $app->redirect('/facebook/authentification');
         }
     }
 
@@ -61,6 +77,7 @@ class CompteControleur{
         $vueC = new VueCompte($tab);
         $vueC->render(2);
     }
+
 
     public function formulaireInscription(){
         $tab=[''];
@@ -89,6 +106,20 @@ class CompteControleur{
         if (isset($_POST['email'])&& $_POST['email'] != "") {
             $util->email = $_POST['email'];
         }
+        if ($_FILES['photo']['error'] <= 0){
+            $extensions_valides = array( 'jpg' , 'jpeg' , 'gif' , 'png' );
+            $extension_upload = strtolower(  substr(  strrchr($_FILES['photo']['name'], '.')  ,1)  );
+            if ( in_array($extension_upload,$extensions_valides)){
+                $resultat = move_uploaded_file($_FILES['photo']['tmp_name'],'assets/img/' . $util->login . $_FILES['photo']['name']);
+                if ($resultat){
+                    $util->avatar = $_FILES['photo']['name'];
+                    $image = new ImageResize('assets/img/' . $util->login . $_FILES['photo']['name']);
+                    $image->resize(200, 200);
+                    $image->save('assets/img/' . $util->login . $_FILES['photo']['name']);
+                }
+            }
+        }
+        $util->prenomnom=$util->prenom . $util->nom;
 
         $util->save();
 

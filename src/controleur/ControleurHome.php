@@ -1,8 +1,8 @@
 <?php
 
-namespace wishlist\controleur;
+namespace facebook\controleur;
 
-use wishlist\Vue\VueHome;
+use facebook\Vue\VueHome;
 
 
 class ControleurHome
@@ -10,5 +10,11 @@ class ControleurHome
     public function afficherHome(){
         $vueC = new VueHome($_SESSION['user_id'] != null);
         $vueC->render();
+    }
+
+    public function getScript()
+    {
+        $vueC = new VueHome($_SESSION['user_id'] != null);
+        $vueC->getScript();
     }
 }

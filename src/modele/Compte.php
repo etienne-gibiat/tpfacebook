@@ -1,6 +1,6 @@
 <?php
 
-namespace wishlist\modele;
+namespace facebook\modele;
 
 class Compte extends \Illuminate\Database\Eloquent\Model{
 

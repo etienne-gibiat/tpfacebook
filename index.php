@@ -1,10 +1,11 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
-use wishlist\controleur\CompteControleur;
-use wishlist\controleur\ControleurHome;
-use wishlist\controleur\ListeParticipationControleur;
-use wishlist\controleur\ItemControleur;
-use wishlist\controleur\ListeCreateurControleur;
+use facebook\controleur\CompteControleur;
+use facebook\controleur\ControleurAmis;
+use facebook\controleur\ControleurHome;
+use facebook\controleur\ListeParticipationControleur;
+use facebook\controleur\ItemControleur;
+use facebook\controleur\ListeCreateurControleur;
 use \Illuminate\Database\Capsule\Manager as DB;
 
 session_start();
@@ -23,19 +24,11 @@ $db->bootEloquent();
 
 $app =new \Slim\Slim();
 
-//$app->get('/*', function(){
-// $c = new ControleurHome();
-// $c->afficherHome();
-//});
-//
-//$app->post('/*', function(){
-// $c = new ControleurHome();
-// $c->afficherHome();
-//});
 
 $app->get('/',function(){
  $c = new ControleurHome();
  $c->afficherHome();
+ $c->getScript();
 });
 
 $app->post('/compte', function(){
@@ -47,26 +40,45 @@ $app->post('/compte', function(){
  $app->redirect('./');
 });
 
-$app->get('/compte', function(){
+$app->get('/demandeAmi/:id', function($id){
  $c = new ControleurHome();
  $c->afficherHome();
+ $c = new ControleurAmis();
+ $c->demandeDami($id);
+ $app = \Slim\Slim::getInstance();
+ $app->redirect('/facebook/');
+});
+
+$app->get('/compte', function(){
+ $ch = new ControleurHome();
+ $ch->afficherHome();
  $c = new CompteControleur();
  $c->formulaireInscription();
+ $ch->getScript();
+});
+
+$app->get('/Amis', function(){
+ $ch = new ControleurHome();
+ $ch->afficherHome();
+ $c = new ControleurAmis();
+ $c->listeAmis();
+ $ch->getScript();
 });
 
 $app->get('/authentification',function(){
  $c = new ControleurHome();
  $c->afficherHome();
- $c = new CompteControleur();
- $c->formulaireConnexion();
+ $c2 = new CompteControleur();
+ $c2->formulaireConnexion();
+ $c->getScript();
 });
 
 $app->post('/authentification',function(){
  $c = new ControleurHome();
  $c->afficherHome();
- $c = new CompteControleur();
- $c->authentifierCompte();
-
+ $c2 = new CompteControleur();
+ $c2->authentifierCompte();
+ $c->getScript();
 });
 
 $app->get('/deconnexion', function(){
@@ -76,95 +88,12 @@ $app->get('/deconnexion', function(){
  $app->redirect('./');
 });
 
-$app->post('/Meslistes',function(){
+$app->post('/recherche', function (){
  $c = new ControleurHome();
  $c->afficherHome();
- $c2 = new ListeCreateurControleur();
- $c2->creerListe();
-
-});
-
-$app->get('/Meslistes',function(){
- $c = new ControleurHome();
- $c->afficherHome();
- $c2 = new ListeCreateurControleur();
- $c2->afficherSesListes();
-
-});
-
-
-$app->get('/Maliste/:token', function($token){
- $c = new ControleurHome();
- $c->afficherHome();
- $c = new ListeCreateurControleur();
- $c->afficherListe($token);
-});
-
-$app->post('/Maliste/:token', function($token){
- $c = new ControleurHome();
- $c->afficherHome();
- $c = new ListeCreateurControleur();
- $c->ajouterItem($token);
-});
-
-$app->get('/listes',function(){
- $c = new ControleurHome();
- $c->afficherHome();
- $c2 = new ListeParticipationControleur();
- $c2->getListes();
-
-});
-
-$app->get('/listes',function(){
- $c = new ControleurHome();
- $c->afficherHome();
- $c2 = new ListeParticipationControleur();
- $c2->getListes();
-
-});
-
-$app->get('/liste/:token',function($token){
- $c = new ControleurHome();
- $c->afficherHome();
- $c = new ListeParticipationControleur();
- $c->afficherListe($token);
-});
-
-$app->get('/item/:iditem', function ($iditem){
- $c = new ControleurHome();
- $c->afficherHome();
- $c = new ItemControleur();
- $c->afficherItem($iditem);
-});
-
-$app->post('/item/:iditem', function ($iditem){
- $c = new ControleurHome();
- $c->afficherHome();
- $c = new ItemControleur();
- $c->reserver($iditem);
-});
-
-$app->get('/MonItem/:iditem', function ($iditem){
- $c = new ControleurHome();
- $c->afficherHome();
- $c = new ItemControleur();
- $c->afficherMonItem($iditem);
-});
-
-$app->post('/MonItem/:iditem', function ($iditem){
- $c = new ControleurHome();
- $c->afficherHome();
- $c = new ItemControleur();
- $c->modifierItem($iditem);
-});
-
-$app->get('/MonItem/:iditem/supp', function ($iditem){
- $c = new ControleurHome();
- $c->afficherHome();
- $c = new ItemControleur();
- $c->suprimerItem($iditem);
- $app = \Slim\Slim::getInstance();
- $app->redirect('/wishlist/Meslistes');
+ $a = new ControleurAmis();
+ $a->rechercheAmis();
+ $c->getScript();
 });
 
 $app->get('/Moncompte/:idCompte',function($idCompte){
@@ -172,6 +101,7 @@ $app->get('/Moncompte/:idCompte',function($idCompte){
  $c->afficherHome();
  $c2 = new CompteControleur();
  $c2->afficherInfo($idCompte);
+ $c->getScript();
 
 });
 
@@ -180,80 +110,7 @@ $app->post('/Moncompte/:idCompte',function($idCompte){
  $c->afficherHome();
  $c2 = new CompteControleur();
  $c2->modifierInfo($idCompte);
-
-});
-
-$app->post('/Message/:token', function ($token){
- $c = new ControleurHome();
- $c->afficherHome();
- $c2 = new ListeParticipationControleur();
- $c2->ajouterMessage($token);
- $app = \Slim\Slim::getInstance();
- $app->redirect('/wishlist/liste/'. $token .'');
-});
-
-$app->get('/publicListes', function (){
- $c = new ControleurHome();
- $c->afficherHome();
- $c2 = new ListeParticipationControleur();
- $c2->getListePublic();
-});
-
-$app->get('/Listepublic/:token', function ($token){
- $c = new ControleurHome();
- $c->afficherHome();
- $c2 = new ListeParticipationControleur();
- $c2->afficherListePublic($token);
-});
-
-$app->post('/Listepublic/Message/:token', function ($token){
- $c = new ControleurHome();
- $c->afficherHome();
- $c2 = new ListeParticipationControleur();
- $c2->ajouterMessagePublic($token);
- $app = \Slim\Slim::getInstance();
- $app->redirect('/wishlist/Listepublic/'. $token .'');
-});
-
-$app->post('/Maliste/Public/:token', function ($token){
- $c = new ControleurHome();
- $c->afficherHome();
- $c2 = new ListeCreateurControleur();
- $c2->modifierPublic($token);
- $app = \Slim\Slim::getInstance();
- $app->redirect('/wishlist/Maliste/'. $token .'');
-});
-
-$app->get('/Maliste/Ajouter/:token', function($token){
- $c = new ControleurHome();
- $c->afficherHome();
- $c = new ListeCreateurControleur();
- $c->afficherAjout($token);
-});
-
-$app->get('/Maliste/Modifier/:token', function($token){
- $c = new ControleurHome();
- $c->afficherHome();
- $c = new ListeCreateurControleur();
- $c->afficherModif($token);
-});
-
-$app->get('/Maliste/Suprimer/:token', function($token){
- $c = new ControleurHome();
- $c->afficherHome();
- $c = new ListeCreateurControleur();
- $c->suprimerListe($token);
- $app = \Slim\Slim::getInstance();
- $app->redirect('/wishlist/Meslistes');
-});
-
-$app->get('/MonItem/:iditem/suppimage', function ($iditem){
- $c = new ControleurHome();
- $c->afficherHome();
- $c = new ItemControleur();
- $c->suprimerImage($iditem);
- $app = \Slim\Slim::getInstance();
- $app->redirect('/wishlist/MonItem/'.$iditem);
+ $c->getScript();
 });
 
 $app->get('/Moncompte/Suprimer/:idCompte', function ($idCompte){
@@ -262,16 +119,8 @@ $app->get('/Moncompte/Suprimer/:idCompte', function ($idCompte){
  $c = new CompteControleur();
  $c->suprimer($idCompte);
  $app = \Slim\Slim::getInstance();
- $app->redirect('/wishlist');
+ $app->redirect('/facebook');
 });
-
-$app->get('/Mesparticipation/:idcompte',function($idcompte){
- $c = new ControleurHome();
- $c->afficherHome();
- $c = new ListeParticipationControleur();
- $c->afficherParticipation($idcompte);
-});
-
 
 $app->run();
 

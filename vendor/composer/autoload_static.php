@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit29648afcead4ac292d5f3310abbe5cc5
+class ComposerStaticInit9490bdc52c706980936efecbd9a29f1d
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -12,14 +12,14 @@ class ComposerStaticInit29648afcead4ac292d5f3310abbe5cc5
     );
 
     public static $prefixLengthsPsr4 = array (
-        'w' => 
+        'f' => 
         array (
-            'wishlist\\' => 9,
+            'facebook\\' => 9,
         ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
-            'Symfony\\Contracts\\' => 18,
+            'Symfony\\Contracts\\Translation\\' => 30,
             'Symfony\\Component\\Translation\\' => 30,
         ),
         'P' => 
@@ -34,6 +34,10 @@ class ComposerStaticInit29648afcead4ac292d5f3310abbe5cc5
             'Illuminate\\Contracts\\' => 21,
             'Illuminate\\Container\\' => 21,
         ),
+        'G' => 
+        array (
+            'Gumlet\\' => 7,
+        ),
         'D' => 
         array (
             'Doctrine\\Common\\Inflector\\' => 26,
@@ -41,7 +45,7 @@ class ComposerStaticInit29648afcead4ac292d5f3310abbe5cc5
     );
 
     public static $prefixDirsPsr4 = array (
-        'wishlist\\' => 
+        'facebook\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
@@ -49,9 +53,9 @@ class ComposerStaticInit29648afcead4ac292d5f3310abbe5cc5
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Contracts\\' => 
+        'Symfony\\Contracts\\Translation\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/contracts',
+            0 => __DIR__ . '/..' . '/symfony/translation-contracts',
         ),
         'Symfony\\Component\\Translation\\' => 
         array (
@@ -81,6 +85,10 @@ class ComposerStaticInit29648afcead4ac292d5f3310abbe5cc5
         array (
             0 => __DIR__ . '/..' . '/illuminate/container',
         ),
+        'Gumlet\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gumlet/php-image-resize/lib',
+        ),
         'Doctrine\\Common\\Inflector\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
@@ -92,6 +100,13 @@ class ComposerStaticInit29648afcead4ac292d5f3310abbe5cc5
     );
 
     public static $prefixesPsr0 = array (
+        'U' => 
+        array (
+            'UpdateHelper\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/kylekatarnls/update-helper/src',
+            ),
+        ),
         'S' => 
         array (
             'Slim' => 
@@ -104,10 +119,10 @@ class ComposerStaticInit29648afcead4ac292d5f3310abbe5cc5
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit29648afcead4ac292d5f3310abbe5cc5::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit29648afcead4ac292d5f3310abbe5cc5::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit29648afcead4ac292d5f3310abbe5cc5::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit29648afcead4ac292d5f3310abbe5cc5::$prefixesPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9490bdc52c706980936efecbd9a29f1d::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9490bdc52c706980936efecbd9a29f1d::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit9490bdc52c706980936efecbd9a29f1d::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit9490bdc52c706980936efecbd9a29f1d::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }
