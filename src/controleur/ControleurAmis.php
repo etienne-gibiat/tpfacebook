@@ -44,17 +44,46 @@ class ControleurAmis
     public function listeAmis()
     {
         $id = $_SESSION['user_id'];
-        $listeAmis = Lien::where(function ($query) use ($id) {
+        $listeLienAmis = Lien::where(function ($query) use ($id) {
             $query->where("idUtilisateur1", "=", "$id")->where("etat", "=", "amitié");
         })->orWhere(function ($query) use ($id) {
             $query->where("idUtilisateur2", "=", "$id")->where("etat", "=", "amitié");
         })->get();
 
-        $listeDemandes = Lien::where("idUtilisateur2", "=", "$id")->where("etat", "=", "attente");
+        $listeAmis = array();
+        $listeDemandes = array();
+        $listeSesDemandes = array();
 
-        $vueA = new VueAmis([$listeAmis, $listeDemandes]);
+        foreach ($listeLienAmis as $t){
+            if($id == $t->idUtilisateur1){
+                $listeAmis = Compte::where("id_compte", "=", "$t->idUtilisateur2")->get();
+            }else{
+                $listeAmis = Compte::where("id_compte", "=", "$t->idUtilisateur1")->get();
+            }
+        }
+
+        $listeLienDemandes = Lien::where("idUtilisateur2", "=", "$id")->where("etat", "=", "attente")->get();
+
+        foreach ($listeLienDemandes as $t){
+                $listeDemandes = Compte::where("id_compte", "=", "$t->idUtilisateur1")->get();
+        }
+
+        $listeLienSesDemandes = Lien::where("idUtilisateur1", "=", "$id")->where("etat", "=", "attente")->get();
+
+        foreach ($listeLienSesDemandes as $t){
+                $listeSesDemandes = Compte::where("id_compte", "=", "$t->idUtilisateur2")->get();
+        }
+
+        $vueA = new VueAmis([$listeAmis, $listeDemandes, $listeSesDemandes]);
         $vueA->render(1);
 
+    }
+
+    public function accepterAmi($id){
+        $selfId = $_SESSION['user_id'];
+        $lien = Lien::where("idUtilisateur1", "=", "$id")->where("idUtilisateur2", "=", "$selfId")->first();
+        $lien->etat = "amitié";
+        $lien->save();
     }
 
 }

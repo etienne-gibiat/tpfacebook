@@ -49,6 +49,22 @@ $app->get('/demandeAmi/:id', function($id){
  $app->redirect('/facebook/');
 });
 
+$app->get('/accepterAmi/:id', function($id){
+ $c = new ControleurHome();
+ $c->afficherHome();
+ $c = new ControleurAmis();
+ $c->accepterAmi($id);
+ $app = \Slim\Slim::getInstance();
+ $app->redirect('/facebook/Amis');
+});
+
+$app->get('/unCompte/:id', function($id){
+ $c = new ControleurHome();
+ $c->afficherHome();
+ $c = new CompteControleur();
+ $c->afficherUnCompte($id);
+});
+
 $app->get('/compte', function(){
  $ch = new ControleurHome();
  $ch->afficherHome();

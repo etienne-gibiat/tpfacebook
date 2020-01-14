@@ -49,7 +49,7 @@ class VueCompte
                             <span class="bmd-form-group"><div class="input-group">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">
-                                  <i class="material-icons">mail</i>
+                                  <i class="material-icons">perm_identity</i>
                                 </span>
                               </div>
                               <input type="text" class="form-control" name="Login" placeholder="Login" required autocomplete="off">
@@ -152,11 +152,6 @@ class VueCompte
                     <div class="profile-tabs">
                       <ul class="nav nav-pills nav-pills-info nav-pills-icons justify-content-center" role="tablist">
                         <li class="nav-item">
-                          <a class="nav-link active" href="#studio" role="tab" data-toggle="tab">
-                            <i class="material-icons">camera</i> Mur
-                          </a>
-                        </li>
-                        <li class="nav-item">
                           <a class="nav-link" href="#works" role="tab" data-toggle="tab">
                             <i class="material-icons">palette</i> Profil
                           </a>
@@ -247,9 +242,44 @@ class VueCompte
         return $res;
     }
 
+    private function afficherUnCompte(){
+        $t = $this->tableau[0];
+        $res = '
+            <div class="page-header header-filter" data-parallax="true" style="background-image: url(\'/facebook/assets/img/city-profile.jpg\');"></div>
+            <div class="main main-raised">
+            <div class="profile-content">
+              <div class="container">
+                <div class="row">
+                  <div class="col-12 ml-auto mr-auto">
+                    <div class="profile">
+                      <div class="avatar">
+                        <img src="/facebook/assets/img/' . $t->avatar . '" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                      </div>
+                      <div class="name">
+                        <h3 class="title">' . $t->prenom . ' ' . $t->nom . '</h3>
+                        </div>
+                        <hr>
+                        <div class="col-6">
+                        <form>
+                      <div class="form-group">
+                        <textarea type="text" rows="10" class="form-control" name="message" id="message" placeholder="Message" required></textarea>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Envoyer</button>
+                    </form>
+                      
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>';
+        return $res;
+    }
 
-    public function render(int $selecteur)
-    {
+
+    public function render(int $selecteur){
         switch ($selecteur) {
             case 0 :
                 $content = $this->afficherCompte();
@@ -262,6 +292,9 @@ class VueCompte
                 break;
             case 3 :
                 $content = $this->formulaireCompte();
+                break;
+            case 4:
+                $content = $this->afficherUnCompte();
                 break;
         }
         switch ($selecteur) {
@@ -289,6 +322,7 @@ class VueCompte
                 <html>
 END;
                 break;
+            case 4:
             case 0:
                 $html = <<<END
                 <!DOCTYPE html>
@@ -305,4 +339,6 @@ END;
         }
         echo $html;
     }
+
+
 }

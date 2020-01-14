@@ -17,11 +17,11 @@ class VueHome{
                     <ul class="navbar-nav ml-auto">
                       <li class="nav-item">
                         <a class="nav-link" href="/facebook/authentification">
-                          <i class="material-icons">cloud_download</i>Se connecter</a>
+                          <i class="material-icons">account_circle</i>Se connecter</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="/facebook/compte">
-                          <i class="material-icons">cloud_download</i>S\'inscrire</a>
+                          <i class="material-icons">assignment_turned_in</i>S\'inscrire</a>
                       </li>
                     </ul>
                   </div>
@@ -45,15 +45,15 @@ class VueHome{
                       </form>
                       <li class="nav-item">
                         <a class="nav-link" href="/facebook/Amis">
-                          <i class="material-icons">cloud_download</i>Amis</a>
+                          <i class="material-icons">supervised_user_circle</i>Amis</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="/facebook/Moncompte/'.$id.'">
-                          <i class="material-icons">cloud_download</i>Mon compte</a>
+                          <i class="material-icons">account_circle</i>Mon compte</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="/facebook/deconnexion">
-                          <i class="material-icons">cloud_download</i>se déconnecter</a>
+                          <i class="material-icons">exit_to_app</i>se déconnecter</a>
                       </li>
                     </ul>
                   </div>
@@ -99,7 +99,7 @@ END;
 
                 break;
         }
-
+        $alert ="";
         if(isset($_SESSION['demandeAmi'])){
             if($_SESSION['demandeAmi'] == -1){
                 $alert = '

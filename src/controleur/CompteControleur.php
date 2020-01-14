@@ -3,6 +3,7 @@
 namespace facebook\controleur;
 
 use facebook\modele\Compte;
+use facebook\modele\Ecrit;
 use facebook\Vue\VueCompte;
 use Gumlet\ImageResize;
 
@@ -136,6 +137,11 @@ class CompteControleur{
     public function suprimer($idCompte){
         Compte::where("id_compte","=",$idCompte)->first()->delete();
         session_destroy();
+    }
+
+    public function afficherUnCompte($id){
+        $vueC = new VueCompte([Compte::where("id_compte","=",$id)->first(), Ecrit::where("idAmi", "=", "$id")]);
+        $vueC->render(4);
     }
 
 

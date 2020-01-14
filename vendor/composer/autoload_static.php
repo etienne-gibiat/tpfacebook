@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9490bdc52c706980936efecbd9a29f1d
+class ComposerStaticInit0d7682faeb10a762236b489bfde6f2b4
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -19,7 +19,6 @@ class ComposerStaticInit9490bdc52c706980936efecbd9a29f1d
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
-            'Symfony\\Contracts\\Translation\\' => 30,
             'Symfony\\Component\\Translation\\' => 30,
         ),
         'P' => 
@@ -52,10 +51,6 @@ class ComposerStaticInit9490bdc52c706980936efecbd9a29f1d
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
-        ),
-        'Symfony\\Contracts\\Translation\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/translation-contracts',
         ),
         'Symfony\\Component\\Translation\\' => 
         array (
@@ -119,10 +114,10 @@ class ComposerStaticInit9490bdc52c706980936efecbd9a29f1d
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9490bdc52c706980936efecbd9a29f1d::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9490bdc52c706980936efecbd9a29f1d::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit9490bdc52c706980936efecbd9a29f1d::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit9490bdc52c706980936efecbd9a29f1d::$prefixesPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0d7682faeb10a762236b489bfde6f2b4::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0d7682faeb10a762236b489bfde6f2b4::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit0d7682faeb10a762236b489bfde6f2b4::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit0d7682faeb10a762236b489bfde6f2b4::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

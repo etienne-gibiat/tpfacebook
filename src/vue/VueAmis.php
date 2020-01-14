@@ -77,16 +77,34 @@ class VueAmis
                   <div class="tab-content text-center">
                     <div class="tab-pane active" id="amis">';
                             foreach ($this->tableau[0] as $t){
-
+                                $res .= '<div class="row pr-5 pl-5" >
+                                    <div class="profile-photo-small col-3" ><img src = "/facebook/assets/img/'. $t->avatar .'" style = "max-height: 50px" class="rounded-circle img-fluid" ></div >
+                                    <div class="col-6" ><a href="/facebook/unCompte/' . $t->id_compte .'" >
+                                    <button class="btn  btn-link btn-info btn-lg">' . $t->prenom .' '. $t->nom .'<div class="ripple-container"></div></button></a ></div >
+                                    
+                                    </div >
+                                    <hr >';
                             }
                       $res .='</div>
                     <div class="tab-pane" id="attente">';
                             foreach ($this->tableau[1] as $t){
-
+                                $res .= '<div class="row pr-5 pl-5" >
+                                    <div class="profile-photo-small col-3" ><img src = "/facebook/assets/img/'. $t->avatar .'" style = "max-height: 50px" class="rounded-circle img-fluid" ></div >
+                                    <div class="col-6" ><h3 > ' . $t->prenom .' '. $t->nom .' </h3 ></div >
+                                    <div class="align-self-start justify-content-end col-3" ><a class="btn btn-success" href="/facebook/accepterAmi/'. $t->id_compte .'"> Accepter en ami </a ></div >
+                                    </div >
+                                    <hr >';
                             }
             $res .='</div>
-                    <div class="tab-pane" id="sattente">
-                    </div>
+                    <div class="tab-pane" id="sattente">';
+                        foreach ($this->tableau[2] as $t){
+                            $res .= '<div class="row pr-5 pl-5" >
+                                    <div class="profile-photo-small col-3" ><img src = "/facebook/assets/img/'. $t->avatar .'" style = "max-height: 50px" class="rounded-circle img-fluid" ></div >
+                                    <div class="col-6" ><h3 > ' . $t->prenom .' '. $t->nom .' </h3 ></div >
+                                    </div >
+                                    <hr >';
+                                }
+                    $res .='</div>
                   </div>
                 </div>
               </div>
