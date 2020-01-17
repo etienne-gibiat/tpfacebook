@@ -28,6 +28,10 @@ $app =new \Slim\Slim();
 $app->get('/',function(){
  $c = new ControleurHome();
  $c->afficherHome();
+ if (isset($_SESSION['user_id'])){
+  $c = new CompteControleur();
+  $c->afficherUnCompte($_SESSION['user_id']);
+ }
  $c->getScript();
 });
 
@@ -65,12 +69,30 @@ $app->get('/unCompte/:id', function($id){
  $c->afficherUnCompte($id);
 });
 
+$app->get('/suprimerMessage/:id', function($id){
+ $c = new ControleurHome();
+ $c->afficherHome();
+ $c = new CompteControleur();
+ $c->suprimerMessage($id);
+ $app = \Slim\Slim::getInstance();
+ $app->redirect('/facebook/');
+});
+
 $app->get('/compte', function(){
  $ch = new ControleurHome();
  $ch->afficherHome();
  $c = new CompteControleur();
  $c->formulaireInscription();
  $ch->getScript();
+});
+
+$app->post('/ecrire/:id', function($id){
+ $ch = new ControleurHome();
+ $ch->afficherHome();
+ $c = new CompteControleur();
+ $c->ecrireMessage($id);
+ $app = \Slim\Slim::getInstance();
+ $app->redirect('/facebook/unCompte/'.$id);
 });
 
 $app->get('/Amis', function(){

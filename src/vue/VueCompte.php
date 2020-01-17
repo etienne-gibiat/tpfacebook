@@ -2,6 +2,8 @@
 
 namespace facebook\Vue;
 
+use facebook\modele\Compte;
+
 class VueCompte
 {
 
@@ -242,8 +244,10 @@ class VueCompte
         return $res;
     }
 
-    private function afficherUnCompte(){
+    private function afficherUnCompte()
+    {
         $t = $this->tableau[0];
+        $messages = $this->tableau[1];
         $res = '
             <div class="page-header header-filter" data-parallax="true" style="background-image: url(\'/facebook/assets/img/city-profile.jpg\');"></div>
             <div class="main main-raised">
@@ -258,17 +262,60 @@ class VueCompte
                       <div class="name">
                         <h3 class="title">' . $t->prenom . ' ' . $t->nom . '</h3>
                         </div>
-                        <hr>
+                    </div>
+                    <hr>
                         <div class="col-6">
-                        <form>
+                        <form class="form" id="f1" method="POST" action="/facebook/ecrire/' . $t->id_compte .'" enctype="multipart/form-data">
                       <div class="form-group">
                         <textarea type="text" rows="10" class="form-control" name="message" id="message" placeholder="Message" required></textarea>
                       </div>
+                      <div id="outputdiv" class="input-group d-none">
+                                  <img id="output" src="/facebook/assets/img/emptyProfil.png" alt="Raised Image" class="img-raised rounded img-fluid ml-2 mt-5">
+
+                          </div>
+                      <div class="input-group">
+
+                              <input type="file" name="photo" class="ml-4 form-control" id="photo" onchange="loadFile(event)">
+                                    <script>
+                                        var loadFile = function(event) {
+                                            var classs = document.getElementById(\'outputdiv\')
+                                            var image = document.getElementById(\'output\');
+                                            image.src = URL.createObjectURL(event.target.files[0]);
+                                            classs.setAttribute("class", "input-group")
+                                        };
+                                    </script>
+                            </div>
                       <button type="submit" class="btn btn-primary">Envoyer</button>
                     </form>
                       
                       </div>
-                    </div>
+                      <hr>
+                      <div class="col-10">';
+                            foreach ($messages as $message){
+                                $compte = Compte::where("id_compte", "=", "$message->idAuteur")->first();
+                                $res .= '<div class="blockquote">
+                                        <h6>de 
+                                            <a href="/facebook/unCompte/' . $compte->id_compte .'" >
+                                                <button class="btn  btn-link btn-info btn-lg">
+                                                    ' . $compte->prenom .' '. $compte->nom .'
+                                                    <div class="ripple-container"></div>
+                                                </button>
+                                            </a>le ' .$message->dateEcrit . '<a href="/facebook/suprimerMessage/' . $message->id .'" >
+                                                <button class="btn  btn-link btn-info btn-lg">
+                                                    suprimer
+                                                    <div class="ripple-container"></div>
+                                                </button>
+                                            </a>
+                                        </h6>
+                                        <p>' . $message->contenu . '</p>';
+                                        if (!empty($message->image)){
+                                            $res .= '<img id="output" src="/facebook/assets/img/' . $message->image . '" alt="Raised Image" class="img-raised rounded img-fluid ml-2 mt-5">';
+                                        }
+
+                                        $res .= '</div>
+                                        <hr>';
+                            }
+            $res .= '</div>
                   </div>
                 </div>
                 </div>
@@ -279,7 +326,8 @@ class VueCompte
     }
 
 
-    public function render(int $selecteur){
+    public function render(int $selecteur)
+    {
         switch ($selecteur) {
             case 0 :
                 $content = $this->afficherCompte();

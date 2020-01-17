@@ -45,9 +45,9 @@ class ControleurAmis
     {
         $id = $_SESSION['user_id'];
         $listeLienAmis = Lien::where(function ($query) use ($id) {
-            $query->where("idUtilisateur1", "=", "$id")->where("etat", "=", "amitié");
+            $query->where("idUtilisateur1", "=", "$id")->where("etat", "=", "ami");
         })->orWhere(function ($query) use ($id) {
-            $query->where("idUtilisateur2", "=", "$id")->where("etat", "=", "amitié");
+            $query->where("idUtilisateur2", "=", "$id")->where("etat", "=", "ami");
         })->get();
 
         $listeAmis = array();
@@ -82,7 +82,7 @@ class ControleurAmis
     public function accepterAmi($id){
         $selfId = $_SESSION['user_id'];
         $lien = Lien::where("idUtilisateur1", "=", "$id")->where("idUtilisateur2", "=", "$selfId")->first();
-        $lien->etat = "amitié";
+        $lien->etat = "ami";
         $lien->save();
     }
 

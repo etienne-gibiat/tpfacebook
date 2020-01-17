@@ -88,6 +88,7 @@ END;
         switch ($this->estConnecte) {
             case true :
                 $content = $this->menuConnecte();
+
                 break;
             case false:
                 $content = $this->menuConnexion();

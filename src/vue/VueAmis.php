@@ -18,7 +18,7 @@ class VueAmis
     private function Recherche()
     {
         $res = '
-        <div class="page-header header-filter clear-filter purple-filter" data-parallax="true" style="background-image: url(&quot;./assets/img/bg2.jpg&quot;); transform: translate3d(0px, 33.3333px, 0px);"></div>
+        <div class="page-header header-filter clear-filter purple-filter" data-parallax="true" style="background-image: url(\'/facebook/assets/img/city-profile.jpg\'); transform: translate3d(0px, 33.3333px, 0px);"></div>
         <div class="main main-raised">
             <div class="section section-basic">
             <h2 class="ml-4 mt-2">Resultat de la recherche</h2>
@@ -41,7 +41,7 @@ class VueAmis
 
     private function listAmis()
     {
-        $res ='<div class="page-header header-filter clear-filter purple-filter" data-parallax="true" style="background-image: url(&quot;./assets/img/bg2.jpg&quot;); transform: translate3d(0px, 33.3333px, 0px);"></div>
+        $res ='<div class="page-header header-filter clear-filter purple-filter" data-parallax="true" style="background-image: url(\'/facebook/assets/img/city-profile.jpg\'); transform: translate3d(0px, 33.3333px, 0px);"></div>
                 <div class="main main-raised">
                 <div class="col-md-10 ml-2 mt-2 mb-2">
               <h3>

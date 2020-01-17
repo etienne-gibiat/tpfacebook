@@ -113,7 +113,7 @@ class CompteControleur{
             if ( in_array($extension_upload,$extensions_valides)){
                 $resultat = move_uploaded_file($_FILES['photo']['tmp_name'],'assets/img/' . $util->login . $_FILES['photo']['name']);
                 if ($resultat){
-                    $util->avatar = $_FILES['photo']['name'];
+                    $util->avatar = $util->login . $_FILES['photo']['name'];
                     $image = new ImageResize('assets/img/' . $util->login . $_FILES['photo']['name']);
                     $image->resize(200, 200);
                     $image->save('assets/img/' . $util->login . $_FILES['photo']['name']);
@@ -140,8 +140,41 @@ class CompteControleur{
     }
 
     public function afficherUnCompte($id){
-        $vueC = new VueCompte([Compte::where("id_compte","=",$id)->first(), Ecrit::where("idAmi", "=", "$id")]);
+        $vueC = new VueCompte([Compte::where("id_compte","=",$id)->first(), Ecrit::where("idAmi", "=", "$id")->get()]);
         $vueC->render(4);
+    }
+
+    public function ecrireMessage($id)
+    {
+        $selfId = $_SESSION['user_id'];
+
+        $util = new Ecrit();
+        $util->dateEcrit = date("Y-m-d H:i:s");
+        $util->titre = "";
+        $util->idauteur = $selfId;
+        $util->idami = $id;
+
+        if (isset($_POST['message'])&& $_POST['message'] != "") {
+            $util->contenu = $_POST['message'];
+        }
+
+        if ($_FILES['photo']['error'] <= 0){
+            $extensions_valides = array( 'jpg' , 'jpeg' , 'gif' , 'png' );
+            $extension_upload = strtolower(  substr(  strrchr($_FILES['photo']['name'], '.')  ,1)  );
+            if ( in_array($extension_upload,$extensions_valides)){
+                $resultat = move_uploaded_file($_FILES['photo']['tmp_name'],'assets/img/' . $util->idauteur . $util->idami . $_FILES['photo']['name']);
+                if ($resultat){
+                    $util->image = $util->idauteur . $util->idami . $_FILES['photo']['name'];
+                }
+            }
+        }
+        $util->save();
+
+    }
+
+    public function suprimerMessage($id)
+    {
+        Ecrit::where("id", "=", "$id")->first()->delete();
     }
 
 
